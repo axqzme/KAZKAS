@@ -1,37 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="lt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agurkas TV</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background-color: #121212; 
-            color: #FFFFFF; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #FFFFFF;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #1f1f1f;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
         }
         .tab-container {
             display: flex;
             justify-content: center;
-            margin: 10px;
+            background-color: #1f1f1f;
+            width: 100%;
         }
-        .tab { 
-            margin: 10px; 
-            cursor: pointer; 
-            padding: 10px; 
-            background-color: #1f1f1f; 
-            border-radius: 5px; 
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            color: #64ffda;
+            border-bottom: 3px solid transparent;
         }
-        .active { 
-            font-weight: bold; 
-            background-color: #333333; 
+        .tab:hover {
+            background-color: #333;
         }
-        .hidden { 
-            display: none; 
+        .tab.active {
+            border-bottom: 3px solid #64ffda;
+        }
+        .hidden {
+            display: none;
         }
         .login-box {
             background-color: #1f1f1f;
@@ -43,29 +58,18 @@
         }
         .login-box h2 {
             font-size: 2em;
+            margin-bottom: 20px;
         }
         .logo {
             width: 100px;
             height: auto;
             margin-bottom: 20px;
         }
-        video { 
-            width: 80%; 
-            height: auto; 
-            margin: 10px 0; 
-            border: 1px solid #333333; 
-            border-radius: 5px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         input {
             margin: 5px 0;
             padding: 10px;
             border-radius: 5px;
-            border: 1px solid #333333;
+            border: 1px solid #333;
             width: 80%;
         }
         button {
@@ -73,16 +77,37 @@
             padding: 10px;
             border-radius: 5px;
             border: none;
-            background-color: #333333;
+            background-color: #333;
             color: #FFFFFF;
             cursor: pointer;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border: 2px solid #a3d5ff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            margin-top: 20px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Agurkas TV</h1>
+    </header>
     <div class="tab-container">
-        <span class="tab" onclick="showTab('main')">🏠 Home</span>
-        <span class="tab" onclick="showTab('profile')">👤 Account Info</span>
+        <div class="tab" onclick="showTab('main')">🏠 Pagrindinis puslapis</div>
+        <div class="tab" onclick="showTab('profile')">👤 Account Info</div>
     </div>
 
     <div id="login" class="login-box">
@@ -96,15 +121,13 @@
     </div>
 
     <div id="main" class="hidden">
-        <h2>Main Page</h2>
-        <video controls>
-            <source src="video1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <video controls>
-            <source src="video2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
+        <h2>Pagrindinis puslapis</h2>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/watch?v=j6gyV2GqEaA allowfullscreen></iframe>
+        </div>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/M3ZZzd6-R8g" allowfullscreen></iframe>
+        </div>
         <!-- Add more video elements as needed -->
     </div>
 
@@ -129,16 +152,4 @@
         }
 
         window.onload = function() {
-            if (localStorage.getItem('currentTab')) {
-                showTab(localStorage.getItem('currentTab'));
-            } else {
-                showTab('login');
-            }
-        };
-
-        window.onbeforeunload = function() {
-            localStorage.setItem('currentTab', document.querySelector('.tab.active').innerText.toLowerCase());
-        };
-    </script>
-</body>
-</html>
+            if (localStorage.getItem('currentTab'))
