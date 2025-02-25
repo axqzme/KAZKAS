@@ -25,13 +25,13 @@
         h1 {
             font-size: 3rem;
             margin: 0;
-            color: #ffcc00;
+            color: #00ff00; /* Green text */
         }
 
         p {
             font-size: 1.2rem;
             margin: 10px 0;
-            color: #aaa;
+            color: #00ff00; /* Green text */
         }
 
         /* YouTube video container */
@@ -45,8 +45,8 @@
 
         /* Style for individual video frames */
         .video-frame {
-            width: 400px;
-            height: 225px;
+            width: 640px; /* Bigger video box */
+            height: 360px; /* Bigger video box */
             border: 4px solid #ffcc00;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
@@ -121,8 +121,8 @@
 
 <!-- User Input for YouTube Link -->
 <div class="link-input">
-    <input type="text" id="youtubeLink" placeholder="Paste YouTube URL here">
-    <input type="button" value="Play Video" onclick="loadVideo()">
+    <input type="text" id="youtubeLink" placeholder="Paste YouTube URL here" disabled> <!-- Disabled input -->
+    <input type="button" value="Play Video" onclick="loadVideo()" disabled> <!-- Disabled button -->
 </div>
 
 <!-- Video container -->
@@ -136,6 +136,7 @@
     const videoContainer = document.getElementById("videoContainer");
     const videoIframe = document.getElementById("videoIframe");
     const youtubeLinkInput = document.getElementById("youtubeLink");
+    const playButton = document.querySelector("input[type='button']");
 
     // List of YouTube video links to play
     const videoList = [
@@ -144,7 +145,7 @@
         "https://www.youtube.com/watch?v=hY7m5jjJ9mM"  // Example video 3
     ];
 
-    let currentVideoIndex = 0;
+    let currentVideoIndex = localStorage.getItem('currentVideoIndex') ? parseInt(localStorage.getItem('currentVideoIndex')) : 0;
 
     // Load the video from the list based on the current index
     function loadVideo() {
@@ -153,6 +154,8 @@
             const videoId = getYouTubeVideoId(videoUrl);
             if (videoId) {
                 updateVideoIframe(videoId);
+                // Store the new video index
+                localStorage.setItem('currentVideoIndex', currentVideoIndex);
             } else {
                 alert("Invalid YouTube URL.");
             }
@@ -177,7 +180,28 @@
         const nextVideoUrl = videoList[currentVideoIndex];
         const nextVideoId = getYouTubeVideoId(nextVideoUrl);
         updateVideoIframe(nextVideoId);
+        // Store the current video index in localStorage
+        localStorage.setItem('currentVideoIndex', currentVideoIndex);
     });
+
+    // Only allow you to input videos, disable the input fields for others
+    const isUserAllowed = true; // Set this to 'true' only if it's your account
+
+    if (isUserAllowed) {
+        youtubeLinkInput.disabled = false;  // Enable the input field
+        playButton.disabled = false;  // Enable the play button
+    }
+
+    // Start playing the saved video after refresh
+    const savedVideoId = localStorage.getItem('currentVideoId');
+    if (savedVideoId) {
+        updateVideoIframe(savedVideoId);
+    } else {
+        // Default to the first video in the list
+        const defaultVideoId = getYouTubeVideoId(videoList[currentVideoIndex]);
+        updateVideoIframe(defaultVideoId);
+    }
+
 </script>
 
 </body>
