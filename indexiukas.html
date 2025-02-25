@@ -1,1 +1,93 @@
-ASDASD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agurko TV</title>
+    <style>
+        body {
+            background: #2c2c2c;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #3a3a3a;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #ff6600;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #cc5200;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-container">
+        <h2>Login to Agurko TV</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showRegister()">Sign up</a></p>
+    </div>
+    
+    <script>
+        function login() {
+            let username = document.getElementById('username').value;
+            let password = document.getElementById('password').value;
+            
+            if (localStorage.getItem(username) === password) {
+                alert('Login successful!');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid credentials or account does not exist!');
+            }
+        }
+
+        function showRegister() {
+            let container = document.getElementById('login-container');
+            container.innerHTML = `
+                <h2>Register</h2>
+                <input type="text" id="newUsername" placeholder="Username">
+                <input type="password" id="newPassword" placeholder="Password">
+                <button onclick="register()">Sign Up</button>
+                <p>Already have an account? <a href="#" onclick="location.reload()">Login</a></p>
+            `;
+        }
+
+        function register() {
+            let newUsername = document.getElementById('newUsername').value;
+            let newPassword = document.getElementById('newPassword').value;
+            
+            if (localStorage.getItem(newUsername)) {
+                alert('Username already exists!');
+            } else {
+                localStorage.setItem(newUsername, newPassword);
+                alert('Registration successful! You can now log in.');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
