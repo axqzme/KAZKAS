@@ -41,8 +41,8 @@
         }
 
         .video-frame {
-            width: 640px;
-            height: 480px; /* Increased height */
+            width: 560px; /* Smaller video width */
+            height: 315px; /* Smaller video height */
             border: 4px solid #ffcc00;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
@@ -97,15 +97,10 @@
 <!-- Grojaraštis (playlist) -->
 <div class="grojarastis">
     <h2>Grojaraštis - Visos Dainos</h2>
-    <!-- 50 Cent Songs -->
     <a href="#" onclick="playVideo(0)">50 Cent - In Da Club</a>
     <a href="#" onclick="playVideo(1)">50 Cent - Candy Shop</a>
     <a href="#" onclick="playVideo(2)">50 Cent - P.I.M.P.</a>
     <a href="#" onclick="playVideo(3)">50 Cent - 21 Questions</a>
-    <a href="#" onclick="playVideo(12)">50 Cent - Get Rich or Die Tryin'</a>
-    <a href="#" onclick="playVideo(13)">50 Cent - Window Shopper</a>
-
-    <!-- Lithuanian Songs -->
     <a href="#" onclick="playVideo(4)">Saulius Prūsaitis - Mėlynos akys</a>
     <a href="#" onclick="playVideo(5)">Andrius Mamontovas - Lietuva</a>
     <a href="#" onclick="playVideo(6)">Antis - Šuo</a>
@@ -114,16 +109,12 @@
     <a href="#" onclick="playVideo(9)">Maironio - Tėvynė</a>
     <a href="#" onclick="playVideo(10)">Gytis Ivanauskas - Tu Man Patinki</a>
     <a href="#" onclick="playVideo(11)">Beissoul & Einius - Let It Go</a>
-
-    <!-- Additional Lithuanian and International Songs -->
-    <a href="#" onclick="playVideo(14)">Eifel 65 - Blue (Da Ba Dee)</a>
-    <a href="#" onclick="playVideo(15)">Sel - Tykiai</a>
-    <a href="#" onclick="playVideo(16)">Jurga - 5 Minutos</a>
-    <a href="#" onclick="playVideo(17)">Gintarė - Mėnulis</a>
-    <a href="#" onclick="playVideo(18)">Matisse - Paskutiniai Žodžiai</a>
-
-    <!-- Added Song by HIPERBOLE -->
-    <a href="#" onclick="playVideo(19)">HIPERBOLE - Lauzai</a>
+    <a href="#" onclick="playVideo(12)">Eifel 65 - Blue (Da Ba Dee)</a>
+    <a href="#" onclick="playVideo(13)">Sel - Tykiai</a>
+    <a href="#" onclick="playVideo(14)">Jurga - 5 Minutos</a>
+    <a href="#" onclick="playVideo(15)">Gintarė - Mėnulis</a>
+    <a href="#" onclick="playVideo(16)">Matisse - Paskutiniai Žodžiai</a>
+    <a href="#" onclick="playVideo(17)">HIPERBOLE - Lauzai</a>
 </div>
 
 <script>
@@ -132,10 +123,7 @@
         "3QJgtLv2qGg",  // 50 Cent - Candy Shop
         "O97t4i2gPz0",  // 50 Cent - P.I.M.P.
         "GCGy1j2-T0A",  // 50 Cent - 21 Questions
-        "kMf_jy9XgTg",  // 50 Cent - Get Rich or Die Tryin'
-        "gbv1vnQRKRI",  // 50 Cent - Window Shopper
-
-        "H8nWuae8jxY",  // Saulius Prūsaitis - Mėlynos akys
+        "kMf_jy9XgTg",  // Saulius Prūsaitis - Mėlynos akys
         "OfU5_X5LOes",  // Andrius Mamontovas - Lietuva
         "rQ-x5Q_0sD8",  // Antis - Šuo
         "vWw4u-VuhPY",  // G&G Sindikatas - Viskas Gerai
@@ -143,30 +131,28 @@
         "gsYHZxuk8j8",  // Maironio - Tėvynė
         "ceRe1vTeZG8",  // Gytis Ivanauskas - Tu Man Patinki
         "PYNfHT0USvY",  // Beissoul & Einius - Let It Go
-
         "ziEUIgnDr2A",  // Eifel 65 - Blue (Da Ba Dee)
         "Ri0zPhnfgwo",  // Sel - Tykiai
         "TzV6VxL9QCU",  // Jurga - 5 Minutos
         "fCQUYRxwJPo",  // Gintarė - Mėnulis
         "0js0gAwxOQg",  // Matisse - Paskutiniai Žodžiai
-
         "qkr9d4HGjPY"   // HIPERBOLE - Lauzai
     ];
 
     let currentVideoIndex = localStorage.getItem('currentVideoIndex') ? parseInt(localStorage.getItem('currentVideoIndex')) : 0;
 
-    // Load the YouTube Player API script
+    // Load the YouTube Player API
     function loadYouTubeAPI() {
         const script = document.createElement('script');
         script.src = 'https://www.youtube.com/iframe_api';
         document.body.appendChild(script);
     }
 
-    // This function is called once the YouTube API script is loaded
+    // Initialize YouTube Player when API is ready
     function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
-            height: '480', // Increased height for better display
-            width: '640',
+            height: '315', // Smaller height
+            width: '560',  // Smaller width
             videoId: videoList[currentVideoIndex],
             events: {
                 'onStateChange': onPlayerStateChange
