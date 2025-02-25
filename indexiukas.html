@@ -6,7 +6,6 @@
   <title>Agurkas TV</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Global Styles */
     body {
       margin: 0;
       font-family: 'Roboto', sans-serif;
@@ -25,7 +24,6 @@
       font-size: 36px;
     }
 
-    /* Right Tab - Profile and Homepage */
     .right-tab {
       position: fixed;
       top: 0;
@@ -35,7 +33,6 @@
       background-color: #1a1a1a;
       padding: 20px;
       box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.6);
-      transition: all 0.3s;
       display: none; /* Hidden by default */
     }
 
@@ -60,25 +57,13 @@
       margin-right: 10px;
     }
 
-    /* Radio Player Container */
-    .radio-player {
-      width: 100%;
-      background-color: #222;
-      padding: 30px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
-    }
-
-    /* YouTube Player */
-    .youtube-player iframe {
+    .youtube-player {
       width: 100%;
       height: 400px;
-      border-radius: 15px;
-      border: none;
+      margin-top: 20px;
+      text-align: center;
     }
 
-    /* Login, Register, and Profile */
     .auth-container {
       width: 300px;
       padding: 30px;
@@ -123,7 +108,6 @@
       cursor: pointer;
     }
 
-    /* Profile Section */
     .profile-container {
       display: flex;
       justify-content: flex-end;
@@ -145,6 +129,36 @@
       color: white;
     }
 
+    .video-upload-container {
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+
+    .video-upload-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #444;
+      color: white;
+      border: 1px solid #666;
+      border-radius: 5px;
+    }
+
+    .video-upload-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #33cc33;
+      color: black;
+      border: none;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 <body>
@@ -161,13 +175,17 @@
     </div>
   </div>
 
-  <!-- Radio Player Section -->
-  <div id="radioPlayer" class="radio-player" style="display:none;">
-    <h1>Agurkas TV Radio</h1>
-    <div class="youtube-player" id="youtubePlayerContainer">
-      <!-- This iframe will be dynamically populated with videos -->
-    </div>
-    <p>Playing your favorite songs continuously</p>
+  <!-- YouTube Video Upload Section -->
+  <div id="videoUploadSection" class="video-upload-container">
+    <h2>Upload Your Videos</h2>
+    <input type="text" id="videoLinkInput" placeholder="Enter YouTube Video URL (ID)">
+    <button onclick="addVideo()">Add Video</button>
+    <p style="color: #33cc33;">Your videos will appear below!</p>
+  </div>
+
+  <!-- YouTube Player Section -->
+  <div class="youtube-player" id="youtubePlayerContainer">
+    <!-- Videos will be displayed here dynamically -->
   </div>
 
   <!-- Login Page -->
@@ -199,17 +217,7 @@
 
   <script>
     let loggedIn = false;
-    let videoQueue = [
-      "YOUR_YOUTUBE_VIDEO_ID1",
-      "YOUR_YOUTUBE_VIDEO_ID2",
-      "YOUR_YOUTUBE_VIDEO_ID3"
-    ]; // Array of YouTube video IDs
-    let currentVideoIndex = 0;
-
-    // Simulate the login and user data
-    const users = [
-      { username: 'user1', password: 'password123' }
-    ];
+    let videoQueue = []; // This will hold the list of video IDs
 
     function showLogin() {
       document.getElementById('authPage').style.display = 'block';
@@ -233,59 +241,53 @@
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
 
-      const user = users.find(u => u.username === username && u.password === password);
-      if (user) {
+      // Simulating a login check
+      if (username === "user" && password === "pass") {
         loggedIn = true;
         document.getElementById('authPage').style.display = 'none';
         document.getElementById('rightTab').style.display = 'block';
-        document.getElementById('radioPlayer').style.display = 'block';
-        document.getElementById('usernameDisplay').textContent = `Welcome, ${username}!`;
-        loadNextVideo();
+        loadVideoQueue();
       } else {
         alert('Invalid login');
       }
     }
 
     function register() {
-      const username = document.getElementById('newUsername').value;
-      const password = document.getElementById('newPassword').value;
-
-      if (username && password) {
-        users.push({ username, password });
-        alert('Account created successfully! Please log in.');
-        showLogin();
-      } else {
-        alert('Please fill in all fields');
-      }
+      alert('Account created!');
+      showLogin();
     }
 
     function forgotPassword() {
-      const email = document.getElementById('forgotEmail').value;
-      if (email) {
-        alert('Password reset link sent!');
-        showLogin();
-      } else {
-        alert('Please enter your email');
-      }
+      alert('Password reset link sent!');
+      showLogin();
     }
 
     function showRadio() {
-      document.getElementById('radioPlayer').style.display = 'block';
+      alert('You are now listening to Agurkas TV Radio!');
     }
 
-    function loadNextVideo() {
+    function addVideo() {
+      const videoID = document.getElementById('videoLinkInput').value.split('v=')[1];
+      if (videoID) {
+        videoQueue.push(videoID);
+        loadVideoQueue();
+        document.getElementById('videoLinkInput').value = ''; // Clear input after adding
+      } else {
+        alert('Please enter a valid YouTube video URL!');
+      }
+    }
+
+    function loadVideoQueue() {
       if (videoQueue.length > 0) {
-        const videoID = videoQueue[currentVideoIndex];
+        const videoID = videoQueue[0];
         const iframe = document.createElement('iframe');
         iframe.src = `https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}`;
         iframe.allow = "autoplay";
         iframe.frameborder = "0";
         iframe.allowfullscreen = true;
-        document.getElementById('youtubePlayerContainer').innerHTML = ''; // Clear existing player
-        document.getElementById('youtubePlayerContainer').appendChild(iframe);
-
-        // Move to next video in the queue
-        currentVideoIndex = (currentVideoIndex + 1) % videoQueue.length;
+        const playerContainer = document.getElementById('youtubePlayerContainer');
+        playerContainer.innerHTML = ''; // Clear previous videos
+        playerContainer.appendChild(iframe);
       }
     }
 
