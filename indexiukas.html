@@ -1,303 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agurkas TV</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background-color: #141414;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    h1 {
-      color: #33cc33; /* Green color for text */
-      font-size: 36px;
-    }
-
-    .right-tab {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 100vh;
-      background-color: #1a1a1a;
-      padding: 20px;
-      box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.6);
-      display: none; /* Hidden by default */
-    }
-
-    .right-tab .tab-item {
-      padding: 15px;
-      color: #33cc33;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: background-color 0.3s;
-      border-radius: 5px;
-    }
-
-    .right-tab .tab-item:hover {
-      background-color: #333;
-    }
-
-    .right-tab .tab-item img {
-      width: 30px;
-      height: 30px;
-      margin-right: 10px;
-    }
-
-    .youtube-player {
-      width: 100%;
-      height: 400px;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .auth-container {
-      width: 300px;
-      padding: 30px;
-      background-color: #333;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
-      display: block;
-    }
-
-    .auth-container input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #555;
-      border-radius: 5px;
-      background-color: #222;
-      color: white;
-    }
-
-    .auth-container button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      background-color: #33cc33;
-      color: black;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .auth-container button:hover {
-      background-color: #28a728;
-    }
-
-    .auth-container p {
-      text-align: center;
-      font-size: 14px;
-    }
-
-    .auth-container .links {
-      color: #33cc33;
-      cursor: pointer;
-    }
-
-    .profile-container {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-
-    .profile-container img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .profile-container .profile-text {
-      color: white;
-    }
-
-    .video-upload-container {
-      padding: 20px;
-      background-color: #222;
-      border-radius: 10px;
-      width: 100%;
-      max-width: 600px;
-      margin-top: 20px;
-    }
-
-    .video-upload-container input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #444;
-      color: white;
-      border: 1px solid #666;
-      border-radius: 5px;
-    }
-
-    .video-upload-container button {
-      width: 100%;
-      padding: 10px;
-      background-color: #33cc33;
-      color: black;
-      border: none;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agurkas TV</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+        .tab { margin: 10px; cursor: pointer; }
+        .active { font-weight: bold; }
+        video { width: 100%; height: auto; }
+    </style>
 </head>
 <body>
-  <!-- Right Tab with Homepage, Profile, and Agurkas TV Radio -->
-  <div class="right-tab" id="rightTab">
-    <div class="tab-item" onclick="goToHome()">
-      <img src="https://via.placeholder.com/30" alt="Home Icon"> Home
+    <h1>Welcome to Agurkas TV</h1>
+    <div>
+        <span class="tab" onclick="showTab('login')">Login</span>
+        <span class="tab" onclick="showTab('signup')">Sign Up</span>
+        <span class="tab" onclick="showTab('forgot')">Forgot Password</span>
+        <span class="tab" onclick="showTab('main')">Main Page</span>
+        <span class="tab" onclick="showTab('profile')">Profile</span>
     </div>
-    <div class="tab-item" onclick="goToProfile()">
-      <img src="https://via.placeholder.com/30" alt="Profile Icon"> Profile
+
+    <div id="login" class="hidden">
+        <h2>Login</h2>
+        <form onsubmit="login(event)">
+            <label for="login-username">Username:</label>
+            <input type="text" id="login-username" required><br>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required><br>
+            <button type="submit">Login</button>
+        </form>
     </div>
-    <div class="tab-item" onclick="showRadio()">
-      <img src="https://via.placeholder.com/30" alt="Radio Icon"> Agurkas TV Radio
+
+    <div id="signup" class="hidden">
+        <h2>Sign Up</h2>
+        <form onsubmit="signup(event)">
+            <label for="signup-username">Username:</label>
+            <input type="text" id="signup-username" required><br>
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" required><br>
+            <button type="submit">Sign Up</button>
+        </form>
     </div>
-  </div>
 
-  <!-- YouTube Video Upload Section -->
-  <div id="videoUploadSection" class="video-upload-container">
-    <h2>Upload Your Videos</h2>
-    <input type="text" id="videoLinkInput" placeholder="Enter YouTube Video URL (ID)">
-    <button onclick="addVideo()">Add Video</button>
-    <p style="color: #33cc33;">Your videos will appear below!</p>
-  </div>
+    <div id="forgot" class="hidden">
+        <h2>Forgot Password</h2>
+        <form onsubmit="forgotPassword(event)">
+            <label for="forgot-email">Email:</label>
+            <input type="email" id="forgot-email" required><br>
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
 
-  <!-- YouTube Player Section -->
-  <div class="youtube-player" id="youtubePlayerContainer">
-    <!-- Videos will be displayed here dynamically -->
-  </div>
+    <div id="main" class="hidden">
+        <h2>Main Page</h2>
+        <video controls>
+            <source src="video1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <video controls>
+            <source src="video2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Add more video elements as needed -->
+    </div>
 
-  <!-- Login Page -->
-  <div id="authPage" class="auth-container">
-    <h2>Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p>Don't have an account? <span class="links" onclick="showRegister()">Create one</span></p>
-    <p><span class="links" onclick="showForgotPassword()">Forgot Password?</span></p>
-  </div>
+    <div id="profile" class="hidden">
+        <h2>Profile</h2>
+        <p id="profile-info"></p>
+    </div>
 
-  <!-- Registration Page -->
-  <div id="registerPage" class="auth-container" style="display: none;">
-    <h2>Create Account</h2>
-    <input type="text" id="newUsername" placeholder="Username">
-    <input type="password" id="newPassword" placeholder="Password">
-    <button onclick="register()">Register</button>
-    <p>Already have an account? <span class="links" onclick="showLogin()">Login</span></p>
-  </div>
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
-  <!-- Forgot Password Page -->
-  <div id="forgotPasswordPage" class="auth-container" style="display: none;">
-    <h2>Forgot Password</h2>
-    <input type="email" id="forgotEmail" placeholder="Enter your email">
-    <button onclick="forgotPassword()">Send Reset Link</button>
-    <p><span class="links" onclick="showLogin()">Back to Login</span></p>
-  </div>
+        function login(event) {
+            event.preventDefault();
+            // Implement login logic here
+            alert('Logged in successfully!');
+            showTab('main');
+        }
 
-  <script>
-    let loggedIn = false;
-    let videoQueue = []; // This will hold the list of video IDs
+        function signup(event) {
+            event.preventDefault();
+            // Implement sign up logic here
+            alert('Signed up successfully!');
+            showTab('login');
+        }
 
-    function showLogin() {
-      document.getElementById('authPage').style.display = 'block';
-      document.getElementById('registerPage').style.display = 'none';
-      document.getElementById('forgotPasswordPage').style.display = 'none';
-    }
+        function forgotPassword(event) {
+            event.preventDefault();
+            // Implement forgot password logic here
+            alert('Password reset link sent!');
+            showTab('login');
+        }
 
-    function showRegister() {
-      document.getElementById('authPage').style.display = 'none';
-      document.getElementById('registerPage').style.display = 'block';
-      document.getElementById('forgotPasswordPage').style.display = 'none';
-    }
+        window.onload = function() {
+            if (localStorage.getItem('currentTab')) {
+                showTab(localStorage.getItem('currentTab'));
+            } else {
+                showTab('login');
+            }
+        };
 
-    function showForgotPassword() {
-      document.getElementById('authPage').style.display = 'none';
-      document.getElementById('registerPage').style.display = 'none';
-      document.getElementById('forgotPasswordPage').style.display = 'block';
-    }
-
-    function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      // Simulating a login check
-      if (username === "user" && password === "pass") {
-        loggedIn = true;
-        document.getElementById('authPage').style.display = 'none';
-        document.getElementById('rightTab').style.display = 'block';
-        loadVideoQueue();
-      } else {
-        alert('Invalid login');
-      }
-    }
-
-    function register() {
-      alert('Account created!');
-      showLogin();
-    }
-
-    function forgotPassword() {
-      alert('Password reset link sent!');
-      showLogin();
-    }
-
-    function showRadio() {
-      alert('You are now listening to Agurkas TV Radio!');
-    }
-
-    function addVideo() {
-      const videoID = document.getElementById('videoLinkInput').value.split('v=')[1];
-      if (videoID) {
-        videoQueue.push(videoID);
-        loadVideoQueue();
-        document.getElementById('videoLinkInput').value = ''; // Clear input after adding
-      } else {
-        alert('Please enter a valid YouTube video URL!');
-      }
-    }
-
-    function loadVideoQueue() {
-      if (videoQueue.length > 0) {
-        const videoID = videoQueue[0];
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}`;
-        iframe.allow = "autoplay";
-        iframe.frameborder = "0";
-        iframe.allowfullscreen = true;
-        const playerContainer = document.getElementById('youtubePlayerContainer');
-        playerContainer.innerHTML = ''; // Clear previous videos
-        playerContainer.appendChild(iframe);
-      }
-    }
-
-    function goToProfile() {
-      alert('Navigating to profile...');
-    }
-
-    function goToHome() {
-      alert('Going to homepage...');
-    }
-  </script>
+        window.onbeforeunload = function() {
+            localStorage.setItem('currentTab', document.querySelector('.tab.active').innerText.toLowerCase());
+        };
+    </script>
 </body>
 </html>
