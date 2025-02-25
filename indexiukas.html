@@ -28,12 +28,15 @@
     /* Right Tab - Profile and Homepage */
     .right-tab {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100vh;
       background-color: #1a1a1a;
       padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+      box-shadow: -5px 0px 15px rgba(0, 0, 0, 0.6);
+      transition: all 0.3s;
+      display: none; /* Hidden by default */
     }
 
     .right-tab .tab-item {
@@ -59,14 +62,12 @@
 
     /* Radio Player Container */
     .radio-player {
-      width: 80%;
-      max-width: 800px;
+      width: 100%;
       background-color: #222;
       padding: 30px;
       border-radius: 15px;
       text-align: center;
       box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
-      display: none; /* Hide radio player by default */
     }
 
     /* YouTube Player */
@@ -147,24 +148,26 @@
   </style>
 </head>
 <body>
-  <!-- Profile & Homepage Icons in Right Tab -->
-  <div class="right-tab" id="rightTab" style="display:none;">
+  <!-- Right Tab with Homepage, Profile, and Agurkas TV Radio -->
+  <div class="right-tab" id="rightTab">
     <div class="tab-item" onclick="goToHome()">
       <img src="https://via.placeholder.com/30" alt="Home Icon"> Home
     </div>
     <div class="tab-item" onclick="goToProfile()">
       <img src="https://via.placeholder.com/30" alt="Profile Icon"> Profile
     </div>
+    <div class="tab-item" onclick="showRadio()">
+      <img src="https://via.placeholder.com/30" alt="Radio Icon"> Agurkas TV Radio
+    </div>
   </div>
 
   <!-- Radio Player Section -->
-  <div id="radioPlayer" class="radio-player">
+  <div id="radioPlayer" class="radio-player" style="display:none;">
     <h1>Agurkas TV Radio</h1>
-    <div class="youtube-player">
-      <!-- Replace with your YouTube video link for the radio/music stream -->
-      <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID?autoplay=1&loop=1&playlist=YOUR_YOUTUBE_VIDEO_ID" allow="autoplay"></iframe>
+    <div class="youtube-player" id="youtubePlayerContainer">
+      <!-- This iframe will be dynamically populated with videos -->
     </div>
-    <p>Playing your favorite songs</p>
+    <p>Playing your favorite songs continuously</p>
   </div>
 
   <!-- Login Page -->
@@ -196,6 +199,12 @@
 
   <script>
     let loggedIn = false;
+    let videoQueue = [
+      "YOUR_YOUTUBE_VIDEO_ID1",
+      "YOUR_YOUTUBE_VIDEO_ID2",
+      "YOUR_YOUTUBE_VIDEO_ID3"
+    ]; // Array of YouTube video IDs
+    let currentVideoIndex = 0;
 
     // Simulate the login and user data
     const users = [
@@ -228,10 +237,10 @@
       if (user) {
         loggedIn = true;
         document.getElementById('authPage').style.display = 'none';
-        document.getElementById('radioPlayer').style.display = 'block';
         document.getElementById('rightTab').style.display = 'block';
-        document.getElementById('profileContainer').style.display = 'flex';
+        document.getElementById('radioPlayer').style.display = 'block';
         document.getElementById('usernameDisplay').textContent = `Welcome, ${username}!`;
+        loadNextVideo();
       } else {
         alert('Invalid login');
       }
@@ -257,6 +266,26 @@
         showLogin();
       } else {
         alert('Please enter your email');
+      }
+    }
+
+    function showRadio() {
+      document.getElementById('radioPlayer').style.display = 'block';
+    }
+
+    function loadNextVideo() {
+      if (videoQueue.length > 0) {
+        const videoID = videoQueue[currentVideoIndex];
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoID}?autoplay=1&loop=1&playlist=${videoID}`;
+        iframe.allow = "autoplay";
+        iframe.frameborder = "0";
+        iframe.allowfullscreen = true;
+        document.getElementById('youtubePlayerContainer').innerHTML = ''; // Clear existing player
+        document.getElementById('youtubePlayerContainer').appendChild(iframe);
+
+        // Move to next video in the queue
+        currentVideoIndex = (currentVideoIndex + 1) % videoQueue.length;
       }
     }
 
