@@ -132,28 +132,13 @@
       font-size: 16px;
     }
 
-    /* Footer */
+    /* Footer - Removed Socials */
     footer {
       background-color: #141414;
       color: white;
       padding: 20px;
       text-align: center;
       margin-top: 40px;
-    }
-
-    footer .social-links {
-      margin-top: 15px;
-    }
-
-    footer .social-links a {
-      color: white;
-      margin: 0 10px;
-      font-size: 18px;
-      transition: color 0.3s;
-    }
-
-    footer .social-links a:hover {
-      color: #ffcc00;
     }
 
     /* Mobile Responsive */
@@ -180,7 +165,7 @@
 <body>
   <!-- Header -->
   <header>
-    <div class="logo">Agurkas TV</div>
+    <div class="logo" onclick="toggleSidebar()">Agurkas TV</div>
     <div class="search-bar">
       <input type="text" placeholder="Search videos...">
     </div>
@@ -192,6 +177,7 @@
       <li>Home</li>
       <li>Trending</li>
       <li>Subscriptions</li>
+      <li>Upload Video</li>
       <li>Library</li>
       <li>History</li>
     </ul>
@@ -220,18 +206,44 @@
   <!-- Footer -->
   <footer>
     <p>&copy; 2025 Agurkas TV</p>
-    <div class="social-links">
-      <a href="#" target="_blank">Facebook</a>
-      <a href="#" target="_blank">Twitter</a>
-      <a href="#" target="_blank">Instagram</a>
-    </div>
   </footer>
 
+  <!-- JavaScript for interactivity -->
   <script>
-    // Toggle side navigation
-    document.querySelector('.logo').addEventListener('click', function() {
-      document.querySelector('.side-nav').classList.toggle('open');
-    });
+    function toggleSidebar() {
+      const sideNav = document.querySelector('.side-nav');
+      sideNav.classList.toggle('open');
+    }
+
+    // Login System (localStorage-based for simplicity)
+    function loginUser(username, password) {
+      // Simple demo login (for real-world usage, use backend authentication)
+      if (username === "admin" && password === "password123") {
+        alert("Login successful!");
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("username", username);
+      } else {
+        alert("Invalid credentials!");
+      }
+    }
+
+    // Upload Video (just a mock)
+    function uploadVideo() {
+      if (localStorage.getItem("loggedIn") !== "true") {
+        alert("Please log in first to upload videos.");
+        return;
+      }
+      alert("Video upload feature (coming soon)!");
+    }
+
+    // If logged in, you can redirect to your personal channel (mocked here)
+    function goToChannel() {
+      if (localStorage.getItem("loggedIn") === "true") {
+        alert("Redirecting to your personal channel!");
+      } else {
+        alert("Please log in first.");
+      }
+    }
   </script>
 </body>
 </html>
