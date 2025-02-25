@@ -167,39 +167,39 @@
   <header>
     <div class="logo" onclick="toggleSidebar()">Agurkas TV</div>
     <div class="search-bar">
-      <input type="text" placeholder="Search videos...">
+      <input id="searchInput" type="text" placeholder="Search videos..." onkeyup="searchVideos()">
     </div>
   </header>
 
   <!-- Side Navigation -->
   <div class="side-nav">
     <ul>
-      <li>Home</li>
-      <li>Trending</li>
-      <li>Subscriptions</li>
-      <li>Upload Video</li>
-      <li>Library</li>
-      <li>History</li>
+      <li onclick="goToHome()">Home</li>
+      <li onclick="goToTrending()">Trending</li>
+      <li onclick="goToSubscriptions()">Subscriptions</li>
+      <li onclick="goToUpload()">Upload Video</li>
+      <li onclick="goToLibrary()">Library</li>
+      <li onclick="goToHistory()">History</li>
     </ul>
   </div>
 
   <!-- Video Thumbnails -->
-  <div class="video-thumbnails">
-    <div class="video-thumbnail">
+  <div id="videoThumbnails" class="video-thumbnails">
+    <div class="video-thumbnail" data-title="Funny Video">
       <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Video Title 1</div>
+      <div class="info">Funny Video</div>
     </div>
-    <div class="video-thumbnail">
+    <div class="video-thumbnail" data-title="Tech Review">
       <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Video Title 2</div>
+      <div class="info">Tech Review</div>
     </div>
-    <div class="video-thumbnail">
+    <div class="video-thumbnail" data-title="Travel Vlog">
       <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Video Title 3</div>
+      <div class="info">Travel Vlog</div>
     </div>
-    <div class="video-thumbnail">
+    <div class="video-thumbnail" data-title="Music Video">
       <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Video Title 4</div>
+      <div class="info">Music Video</div>
     </div>
   </div>
 
@@ -210,14 +210,54 @@
 
   <!-- JavaScript for interactivity -->
   <script>
+    // Toggle the Sidebar
     function toggleSidebar() {
       const sideNav = document.querySelector('.side-nav');
       sideNav.classList.toggle('open');
     }
 
-    // Login System (localStorage-based for simplicity)
+    // Search Functionality
+    function searchVideos() {
+      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      const videos = document.querySelectorAll('.video-thumbnail');
+      
+      videos.forEach(video => {
+        const title = video.getAttribute('data-title').toLowerCase();
+        if (title.includes(searchQuery)) {
+          video.style.display = 'block'; // Show if it matches
+        } else {
+          video.style.display = 'none'; // Hide if it doesn't match
+        }
+      });
+    }
+
+    // Mock Navigation Functions
+    function goToHome() {
+      alert("Going to Home...");
+    }
+
+    function goToTrending() {
+      alert("Going to Trending...");
+    }
+
+    function goToSubscriptions() {
+      alert("Going to Subscriptions...");
+    }
+
+    function goToUpload() {
+      alert("Going to Upload...");
+    }
+
+    function goToLibrary() {
+      alert("Going to Library...");
+    }
+
+    function goToHistory() {
+      alert("Going to History...");
+    }
+
+    // Mock login (simple demo, replace with real authentication)
     function loginUser(username, password) {
-      // Simple demo login (for real-world usage, use backend authentication)
       if (username === "admin" && password === "password123") {
         alert("Login successful!");
         localStorage.setItem("loggedIn", "true");
@@ -227,16 +267,7 @@
       }
     }
 
-    // Upload Video (just a mock)
-    function uploadVideo() {
-      if (localStorage.getItem("loggedIn") !== "true") {
-        alert("Please log in first to upload videos.");
-        return;
-      }
-      alert("Video upload feature (coming soon)!");
-    }
-
-    // If logged in, you can redirect to your personal channel (mocked here)
+    // Redirect to personal channel
     function goToChannel() {
       if (localStorage.getItem("loggedIn") === "true") {
         alert("Redirecting to your personal channel!");
