@@ -1,185 +1,184 @@
 <!DOCTYPE html>
-<html lang="lt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agurkas TV</title>
+    <title>AGURKAS TV</title>
     <style>
+        /* General page style */
         body {
             font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #FFFFFF;
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            padding: 0;
+            background-color: #222;
+            color: #fff;
         }
+
+        /* Header style */
         header {
-            width: 100%;
-            background-color: #1f1f1f;
-            padding: 20px;
             text-align: center;
-            border-bottom: 1px solid #333;
+            padding: 20px;
+            background-color: #333;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
         }
-        header h1 {
+
+        h1 {
+            font-size: 3rem;
             margin: 0;
-            font-size: 2.5em;
+            color: #ffcc00;
         }
-        .tab-container {
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #aaa;
+        }
+
+        /* YouTube video container */
+        .video-container {
             display: flex;
             justify-content: center;
-            background-color: #1f1f1f;
-            width: 100%;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px;
         }
-        .tab {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            color: #64ffda;
-            border-bottom: 3px solid transparent;
-        }
-        .tab:hover {
-            background-color: #333;
-        }
-        .tab.active {
-            border-bottom: 3px solid #64ffda;
-        }
-        .hidden {
-            display: none;
-        }
-        .login-box {
-            background-color: #1f1f1f;
-            padding: 20px;
+
+        /* Style for individual video frames */
+        .video-frame {
+            width: 400px;
+            height: 225px;
+            border: 4px solid #ffcc00;
             border-radius: 10px;
-            text-align: center;
-            margin-top: 20vh;
-            width: 300px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease-in-out;
-        }
-        .login-box h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-        .logo {
-            width: 100px;
-            height: auto;
-            margin-bottom: 20px;
-        }
-        input {
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #333;
-            width: 80%;
-        }
-        button {
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #333;
-            color: #FFFFFF;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #555;
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
             overflow: hidden;
-            border: 2px solid #a3d5ff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            margin-top: 20px;
-            transition: box-shadow 0.3s, border-color 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .video-container:hover {
-            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
-            border-color: #ff0000;
+
+        /* Video frame glow effect on hover */
+        .video-frame:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.8);
         }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+
+        /* Embedded YouTube video */
+        iframe {
             width: 100%;
             height: 100%;
-            border: 0;
         }
+
+        /* Add a smooth fade-in effect when page loads */
+        .video-container {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Fade-in animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Center input for custom YouTube link */
+        .link-input {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 2px solid #ffcc00;
+        }
+
+        input[type="button"] {
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #ffcc00;
+            color: #222;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #ff9900;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Agurkas TV</h1>
-    </header>
-    <div class="tab-container hidden" id="tabs">
-        <div class="tab" onclick="showTab('main')">🏠 Pagrindinis puslapis</div>
-        <div class="tab" onclick="showTab('profile')">👤 Account Info</div>
+
+<header>
+    <h1>AGURKAS TV</h1>
+    <p>Tai yra RADIO pilnas geru daineliu</p>
+</header>
+
+<!-- User Input for YouTube Link -->
+<div class="link-input">
+    <input type="text" id="youtubeLink" placeholder="Paste YouTube URL here">
+    <input type="button" value="Play Video" onclick="loadVideo()">
+</div>
+
+<!-- Video container -->
+<div class="video-container" id="videoContainer">
+    <div class="video-frame">
+        <iframe id="videoIframe" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
+</div>
 
-    <div id="login" class="login-box">
-        <img src="pickle.png" alt="Pickle Logo" class="logo">
-        <h2>Login</h2>
-        <form onsubmit="login(event)">
-            <input type="text" id="login-username" placeholder="Username" required><br>
-            <input type="password" id="login-password" placeholder="Password" required><br>
-            <button type="submit">Login</button>
-        </form>
-    </div>
+<script>
+    const videoContainer = document.getElementById("videoContainer");
+    const videoIframe = document.getElementById("videoIframe");
+    const youtubeLinkInput = document.getElementById("youtubeLink");
 
-    <div id="main" class="hidden">
-        <h2>Pagrindinis puslapis</h2>
-        <div class="video-container">
-            <iframe id="video1" src="https://www.youtube.com/watch?v=j6gyV2GqEaA" allowfullscreen></iframe>
-        </div>
-        <!-- Add more video elements as needed -->
-    </div>
+    // List of YouTube video links to play
+    const videoList = [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Example video 1
+        "https://www.youtube.com/watch?v=kJQP7kiw5Fk", // Example video 2
+        "https://www.youtube.com/watch?v=hY7m5jjJ9mM"  // Example video 3
+    ];
 
-    <div id="profile" class="hidden">
-        <h2>Profile</h2>
-        <p id="profile-info"></p>
-    </div>
+    let currentVideoIndex = 0;
 
-    <script>
-        function showTab(tabId) {
-            document.querySelectorAll('div').forEach(div => div.classList.add('hidden'));
-            document.getElementById(tabId).classList.remove('hidden');
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        function login(event) {
-            event.preventDefault();
-            alert('Logged in successfully!');
-            document.getElementById('login').classList.add('hidden');
-            document.getElementById('tabs').classList.remove('hidden');
-            showTab('main');
-        }
-
-        window.onload = function() {
-            if (localStorage.getItem('currentTab')) {
-                showTab(localStorage.getItem('currentTab'));
+    // Load the video from the list based on the current index
+    function loadVideo() {
+        let videoUrl = youtubeLinkInput.value.trim();
+        if (videoUrl) {
+            const videoId = getYouTubeVideoId(videoUrl);
+            if (videoId) {
+                updateVideoIframe(videoId);
             } else {
-                showTab('login');
+                alert("Invalid YouTube URL.");
             }
-        };
+        }
+    }
 
-        window.onbeforeunload = function() {
-            localStorage.setItem('currentTab', document.querySelector('.tab.active').innerText.toLowerCase());
-        };
+    // Extract YouTube video ID from URL
+    function getYouTubeVideoId(url) {
+        const regExp = /(?:https?:\/\/(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=))([A-Za-z0-9_-]{11}))|(?:youtu\.be\/([A-Za-z0-9_-]{11}))/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+    }
 
-        var video1 = document.getElementById('video1');
-        video1.addEventListener('ended', function() {
-            video1.src = "https://www.youtube.com/embed/M3ZZzd6-R8g";
-        });
-    </script>
+    // Update iframe src with a new video
+    function updateVideoIframe(videoId) {
+        videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    }
+
+    // Auto-play the next video in the list
+    videoIframe.addEventListener("ended", function() {
+        currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
+        const nextVideoUrl = videoList[currentVideoIndex];
+        const nextVideoId = getYouTubeVideoId(nextVideoUrl);
+        updateVideoIframe(nextVideoId);
+    });
+</script>
+
 </body>
 </html>
