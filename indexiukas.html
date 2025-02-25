@@ -90,34 +90,35 @@
 <!-- Video container -->
 <div class="video-container" id="videoContainer">
     <div class="video-frame">
-        <div id="player"></div>
+        <iframe id="videoIframe" src="https://www.youtube.com/embed/5qmK1jjD62s?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
 
 <!-- Grojaraštis (playlist) -->
 <div class="grojarastis">
     <h2>Grojaraštis - Visos Dainos</h2>
-    <a href="#" onclick="playVideo(0)">50 Cent - In Da Club</a>
-    <a href="#" onclick="playVideo(1)">50 Cent - Candy Shop</a>
-    <a href="#" onclick="playVideo(2)">50 Cent - P.I.M.P.</a>
-    <a href="#" onclick="playVideo(3)">50 Cent - 21 Questions</a>
-    <a href="#" onclick="playVideo(4)">Saulius Prūsaitis - Mėlynos akys</a>
-    <a href="#" onclick="playVideo(5)">Andrius Mamontovas - Lietuva</a>
-    <a href="#" onclick="playVideo(6)">Antis - Šuo</a>
-    <a href="#" onclick="playVideo(7)">G&G Sindikatas - Viskas Gerai</a>
-    <a href="#" onclick="playVideo(8)">Donny Montell - Žiūrėk, kaip aš gyvenu</a>
-    <a href="#" onclick="playVideo(9)">Maironio - Tėvynė</a>
-    <a href="#" onclick="playVideo(10)">Gytis Ivanauskas - Tu Man Patinki</a>
-    <a href="#" onclick="playVideo(11)">Beissoul & Einius - Let It Go</a>
-    <a href="#" onclick="playVideo(12)">Eifel 65 - Blue (Da Ba Dee)</a>
-    <a href="#" onclick="playVideo(13)">Sel - Tykiai</a>
-    <a href="#" onclick="playVideo(14)">Jurga - 5 Minutos</a>
-    <a href="#" onclick="playVideo(15)">Gintarė - Mėnulis</a>
-    <a href="#" onclick="playVideo(16)">Matisse - Paskutiniai Žodžiai</a>
-    <a href="#" onclick="playVideo(17)">HIPERBOLE - Lauzai</a>
+    <a href="#" onclick="playVideo('5qmK1jjD62s')">50 Cent - In Da Club</a>
+    <a href="#" onclick="playVideo('3QJgtLv2qGg')">50 Cent - Candy Shop</a>
+    <a href="#" onclick="playVideo('O97t4i2gPz0')">50 Cent - P.I.M.P.</a>
+    <a href="#" onclick="playVideo('GCGy1j2-T0A')">50 Cent - 21 Questions</a>
+    <a href="#" onclick="playVideo('kMf_jy9XgTg')">Saulius Prūsaitis - Mėlynos akys</a>
+    <a href="#" onclick="playVideo('OfU5_X5LOes')">Andrius Mamontovas - Lietuva</a>
+    <a href="#" onclick="playVideo('rQ-x5Q_0sD8')">Antis - Šuo</a>
+    <a href="#" onclick="playVideo('vWw4u-VuhPY')">G&G Sindikatas - Viskas Gerai</a>
+    <a href="#" onclick="playVideo('g1rmdCj0sYw')">Donny Montell - Žiūrėk, kaip aš gyvenu</a>
+    <a href="#" onclick="playVideo('gsYHZxuk8j8')">Maironio - Tėvynė</a>
+    <a href="#" onclick="playVideo('ceRe1vTeZG8')">Gytis Ivanauskas - Tu Man Patinki</a>
+    <a href="#" onclick="playVideo('PYNfHT0USvY')">Beissoul & Einius - Let It Go</a>
+    <a href="#" onclick="playVideo('ziEUIgnDr2A')">Eifel 65 - Blue (Da Ba Dee)</a>
+    <a href="#" onclick="playVideo('Ri0zPhnfgwo')">Sel - Tykiai</a>
+    <a href="#" onclick="playVideo('TzV6VxL9QCU')">Jurga - 5 Minutos</a>
+    <a href="#" onclick="playVideo('fCQUYRxwJPo')">Gintarė - Mėnulis</a>
+    <a href="#" onclick="playVideo('0js0gAwxOQg')">Matisse - Paskutiniai Žodžiai</a>
+    <a href="#" onclick="playVideo('qkr9d4HGjPY')">HIPERBOLE - Lauzai</a>
 </div>
 
 <script>
+    // List of YouTube video IDs
     const videoList = [
         "5qmK1jjD62s",  // 50 Cent - In Da Club
         "3QJgtLv2qGg",  // 50 Cent - Candy Shop
@@ -139,45 +140,16 @@
         "qkr9d4HGjPY"   // HIPERBOLE - Lauzai
     ];
 
-    let currentVideoIndex = localStorage.getItem('currentVideoIndex') ? parseInt(localStorage.getItem('currentVideoIndex')) : 0;
+    let currentVideoIndex = 0; // Default to the first video
 
-    // Load the YouTube Player API
-    function loadYouTubeAPI() {
-        const script = document.createElement('script');
-        script.src = 'https://www.youtube.com/iframe_api';
-        document.body.appendChild(script);
+    // Function to change the video on the iframe
+    function playVideo(videoId) {
+        const videoIframe = document.getElementById("videoIframe");
+        videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     }
 
-    // Initialize YouTube Player when API is ready
-    function onYouTubeIframeAPIReady() {
-        player = new YT.Player('player', {
-            height: '315', // Smaller height
-            width: '560',  // Smaller width
-            videoId: videoList[currentVideoIndex],
-            events: {
-                'onStateChange': onPlayerStateChange
-            }
-        });
-    }
-
-    // Function to play selected video from the playlist
-    function playVideo(index) {
-        currentVideoIndex = index;
-        localStorage.setItem('currentVideoIndex', currentVideoIndex);
-        player.loadVideoById(videoList[currentVideoIndex]);
-    }
-
-    // Auto play next video when the current one ends
-    function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.ENDED) {
-            currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
-            localStorage.setItem('currentVideoIndex', currentVideoIndex);
-            player.loadVideoById(videoList[currentVideoIndex]);
-        }
-    }
-
-    // Load YouTube API script
-    loadYouTubeAPI();
+    // Initialize the first video
+    playVideo(videoList[currentVideoIndex]);
 </script>
 
 </body>
