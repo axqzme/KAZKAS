@@ -5,51 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agurkas TV</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .hidden { display: none; }
-        .tab { margin: 10px; cursor: pointer; }
-        .active { font-weight: bold; }
-        video { width: 100%; height: auto; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #121212; 
+            color: #FFFFFF; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px;
+        }
+        .tab { 
+            margin: 10px; 
+            cursor: pointer; 
+            padding: 10px; 
+            background-color: #1f1f1f; 
+            border-radius: 5px; 
+        }
+        .active { 
+            font-weight: bold; 
+            background-color: #333333; 
+        }
+        .hidden { 
+            display: none; 
+        }
+        .login-box {
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20vh;
+        }
+        .login-box h2 {
+            font-size: 2em;
+        }
+        video { 
+            width: 80%; 
+            height: auto; 
+            margin: 10px 0; 
+            border: 1px solid #333333; 
+            border-radius: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #333333;
+            width: 80%;
+        }
+        button {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #333333;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to Agurkas TV</h1>
-    <div>
-        <span class="tab" onclick="showTab('login')">Login</span>
-        <span class="tab" onclick="showTab('signup')">Sign Up</span>
-        <span class="tab" onclick="showTab('forgot')">Forgot Password</span>
-        <span class="tab" onclick="showTab('main')">Main Page</span>
-        <span class="tab" onclick="showTab('profile')">Profile</span>
+    <div class="tab-container">
+        <span class="tab" onclick="showTab('main')">🏠 Home</span>
+        <span class="tab" onclick="showTab('profile')">👤 Account Info</span>
     </div>
 
-    <div id="login" class="hidden">
+    <div id="login" class="login-box">
         <h2>Login</h2>
         <form onsubmit="login(event)">
-            <label for="login-username">Username:</label>
-            <input type="text" id="login-username" required><br>
-            <label for="login-password">Password:</label>
-            <input type="password" id="login-password" required><br>
+            <input type="text" id="login-username" placeholder="Username" required><br>
+            <input type="password" id="login-password" placeholder="Password" required><br>
             <button type="submit">Login</button>
-        </form>
-    </div>
-
-    <div id="signup" class="hidden">
-        <h2>Sign Up</h2>
-        <form onsubmit="signup(event)">
-            <label for="signup-username">Username:</label>
-            <input type="text" id="signup-username" required><br>
-            <label for="signup-password">Password:</label>
-            <input type="password" id="signup-password" required><br>
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
-
-    <div id="forgot" class="hidden">
-        <h2>Forgot Password</h2>
-        <form onsubmit="forgotPassword(event)">
-            <label for="forgot-email">Email:</label>
-            <input type="email" id="forgot-email" required><br>
-            <button type="submit">Reset Password</button>
         </form>
     </div>
 
@@ -84,20 +119,6 @@
             // Implement login logic here
             alert('Logged in successfully!');
             showTab('main');
-        }
-
-        function signup(event) {
-            event.preventDefault();
-            // Implement sign up logic here
-            alert('Signed up successfully!');
-            showTab('login');
-        }
-
-        function forgotPassword(event) {
-            event.preventDefault();
-            // Implement forgot password logic here
-            alert('Password reset link sent!');
-            showTab('login');
         }
 
         window.onload = function() {
