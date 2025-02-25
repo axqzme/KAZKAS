@@ -81,35 +81,6 @@
             }
         }
 
-        /* Center input for custom YouTube link */
-        .link-input {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            font-size: 1rem;
-            width: 300px;
-            margin-right: 10px;
-            border-radius: 5px;
-            border: 2px solid #ffcc00;
-        }
-
-        input[type="button"] {
-            padding: 10px;
-            font-size: 1rem;
-            background-color: #ffcc00;
-            color: #222;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="button"]:hover {
-            background-color: #ff9900;
-        }
     </style>
 </head>
 <body>
@@ -119,12 +90,6 @@
     <p>Tai yra RADIO pilnas geru daineliu</p>
 </header>
 
-<!-- User Input for YouTube Link -->
-<div class="link-input">
-    <input type="text" id="youtubeLink" placeholder="Paste YouTube URL here" disabled> <!-- Disabled input -->
-    <input type="button" value="Play Video" onclick="loadVideo()" disabled> <!-- Disabled button -->
-</div>
-
 <!-- Video container -->
 <div class="video-container" id="videoContainer">
     <div class="video-frame">
@@ -133,10 +98,7 @@
 </div>
 
 <script>
-    const videoContainer = document.getElementById("videoContainer");
     const videoIframe = document.getElementById("videoIframe");
-    const youtubeLinkInput = document.getElementById("youtubeLink");
-    const playButton = document.querySelector("input[type='button']");
 
     // List of YouTube video links to play
     const videoList = [
@@ -149,17 +111,9 @@
 
     // Load the video from the list based on the current index
     function loadVideo() {
-        let videoUrl = youtubeLinkInput.value.trim();
-        if (videoUrl) {
-            const videoId = getYouTubeVideoId(videoUrl);
-            if (videoId) {
-                updateVideoIframe(videoId);
-                // Store the new video index
-                localStorage.setItem('currentVideoIndex', currentVideoIndex);
-            } else {
-                alert("Invalid YouTube URL.");
-            }
-        }
+        const currentVideoUrl = videoList[currentVideoIndex];
+        const videoId = getYouTubeVideoId(currentVideoUrl);
+        updateVideoIframe(videoId);
     }
 
     // Extract YouTube video ID from URL
@@ -174,7 +128,7 @@
         videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
     }
 
-    // Auto-play the next video in the list
+    // Auto-play the next video in the list when the current one ends
     videoIframe.addEventListener("ended", function() {
         currentVideoIndex = (currentVideoIndex + 1) % videoList.length;
         const nextVideoUrl = videoList[currentVideoIndex];
@@ -184,23 +138,8 @@
         localStorage.setItem('currentVideoIndex', currentVideoIndex);
     });
 
-    // Only allow you to input videos, disable the input fields for others
-    const isUserAllowed = true; // Set this to 'true' only if it's your account
-
-    if (isUserAllowed) {
-        youtubeLinkInput.disabled = false;  // Enable the input field
-        playButton.disabled = false;  // Enable the play button
-    }
-
     // Start playing the saved video after refresh
-    const savedVideoId = localStorage.getItem('currentVideoId');
-    if (savedVideoId) {
-        updateVideoIframe(savedVideoId);
-    } else {
-        // Default to the first video in the list
-        const defaultVideoId = getYouTubeVideoId(videoList[currentVideoIndex]);
-        updateVideoIframe(defaultVideoId);
-    }
+    loadVideo();
 
 </script>
 
