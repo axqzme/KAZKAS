@@ -3,277 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agurkas TV</title>
+  <title>Agurkas TV Radio</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* Global Styles */
     body {
+      margin: 0;
       font-family: 'Roboto', sans-serif;
-      background-color: #f0f0f0;
-      color: #333;
-      overflow-x: hidden;
+      background-color: #141414;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
       transition: all 0.3s ease;
     }
 
-    /* Header Styles */
-    header {
-      background-color: #141414;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: fixed;
-      width: 100%;
-      z-index: 100;
-      top: 0;
-    }
-
-    header .logo {
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    header .logo:hover {
+    h1 {
       color: #ffcc00;
+      font-size: 36px;
     }
 
-    header .search-bar input {
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      border-radius: 25px;
-      border: 1px solid #ccc;
-      transition: width 0.3s ease;
-    }
-
-    header .search-bar input:focus {
-      width: 400px;
-      outline: none;
-      border-color: #ffcc00;
-    }
-
-    /* Side Navigation Styles */
-    .side-nav {
-      position: fixed;
-      top: 80px;
-      left: 0;
-      background-color: #333;
-      width: 200px;
-      height: 100vh;
-      padding-top: 20px;
-      transition: transform 0.3s ease-in-out;
-      transform: translateX(-220px);
-    }
-
-    .side-nav.open {
-      transform: translateX(0);
-    }
-
-    .side-nav ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .side-nav ul li {
-      padding: 20px;
-      color: #fff;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .side-nav ul li:hover {
-      background-color: #444;
-    }
-
-    /* Main Content (Video Thumbnails Grid) */
-    .video-thumbnails {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      padding: 100px 20px 20px 220px; /* Padding for side nav */
-    }
-
-    .video-thumbnail {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .video-thumbnail:hover {
-      transform: scale(1.05);
-    }
-
-    .video-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: opacity 0.3s ease;
-    }
-
-    .video-thumbnail .info {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      padding: 5px;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    /* Footer - Removed Socials */
-    footer {
-      background-color: #141414;
-      color: white;
-      padding: 20px;
+    /* Radio Player Container */
+    .radio-player {
+      width: 80%;
+      max-width: 800px;
+      background-color: #222;
+      padding: 30px;
+      border-radius: 15px;
       text-align: center;
-      margin-top: 40px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
     }
 
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-      .video-thumbnails {
-        grid-template-columns: repeat(2, 1fr);
-        padding-left: 20px;
-      }
-
-      header .search-bar input {
-        width: 200px;
-      }
-
-      .side-nav {
-        width: 250px;
-      }
-
-      .side-nav.open {
-        transform: translateX(0);
-      }
+    /* YouTube Player */
+    .youtube-player iframe {
+      width: 100%;
+      height: 400px;
+      border-radius: 15px;
+      border: none;
     }
+
+    /* Login, Register, and Profile */
+    .auth-container {
+      width: 300px;
+      padding: 30px;
+      background-color: #333;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .auth-container input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #222;
+      color: white;
+    }
+
+    .auth-container button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background-color: #ffcc00;
+      color: black;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .auth-container button:hover {
+      background-color: #ff9900;
+    }
+
+    .auth-container p {
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .auth-container .links {
+      color: #ffcc00;
+      cursor: pointer;
+    }
+
+    /* Profile Section */
+    .profile-container {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .profile-container img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .profile-container .profile-text {
+      color: white;
+    }
+
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="logo" onclick="toggleSidebar()">Agurkas TV</div>
-    <div class="search-bar">
-      <input id="searchInput" type="text" placeholder="Search videos..." onkeyup="searchVideos()">
-    </div>
-  </header>
-
-  <!-- Side Navigation -->
-  <div class="side-nav">
-    <ul>
-      <li onclick="goToHome()">Home</li>
-      <li onclick="goToTrending()">Trending</li>
-      <li onclick="goToSubscriptions()">Subscriptions</li>
-      <li onclick="goToUpload()">Upload Video</li>
-      <li onclick="goToLibrary()">Library</li>
-      <li onclick="goToHistory()">History</li>
-    </ul>
+  <!-- Profile & Homepage Icon -->
+  <div class="profile-container" id="profileContainer" style="display:none;">
+    <img src="https://via.placeholder.com/40" alt="Profile Picture" onclick="goToProfile()">
+    <span class="profile-text" id="usernameDisplay"></span>
   </div>
 
-  <!-- Video Thumbnails -->
-  <div id="videoThumbnails" class="video-thumbnails">
-    <div class="video-thumbnail" data-title="Funny Video">
-      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Funny Video</div>
+  <!-- Radio Player or Login/Register Page -->
+  <div id="radioPlayer" class="radio-player" style="display: none;">
+    <h1>Agurkas TV Radio</h1>
+    <div class="youtube-player">
+      <!-- Replace with your YouTube video link for the radio/music stream -->
+      <iframe src="https://www.youtube.com/embed/YOUR_YOUTUBE_VIDEO_ID?autoplay=1&loop=1&playlist=YOUR_YOUTUBE_VIDEO_ID" allow="autoplay"></iframe>
     </div>
-    <div class="video-thumbnail" data-title="Tech Review">
-      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Tech Review</div>
-    </div>
-    <div class="video-thumbnail" data-title="Travel Vlog">
-      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Travel Vlog</div>
-    </div>
-    <div class="video-thumbnail" data-title="Music Video">
-      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
-      <div class="info">Music Video</div>
-    </div>
+    <p>Playing your favorite songs</p>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Agurkas TV</p>
-  </footer>
+  <div id="authPage" class="auth-container">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p>Don't have an account? <span class="links" onclick="showRegister()">Create one</span></p>
+    <p><span class="links" onclick="showForgotPassword()">Forgot Password?</span></p>
+  </div>
 
-  <!-- JavaScript for interactivity -->
+  <!-- Registration Form -->
+  <div id="registerPage" class="auth-container" style="display: none;">
+    <h2>Create Account</h2>
+    <input type="text" id="newUsername" placeholder="Username">
+    <input type="password" id="newPassword" placeholder="Password">
+    <button onclick="register()">Register</button>
+    <p>Already have an account? <span class="links" onclick="showLogin()">Login</span></p>
+  </div>
+
+  <!-- Forgot Password Form -->
+  <div id="forgotPasswordPage" class="auth-container" style="display: none;">
+    <h2>Forgot Password</h2>
+    <input type="email" id="forgotEmail" placeholder="Enter your email">
+    <button onclick="forgotPassword()">Send Reset Link</button>
+    <p><span class="links" onclick="showLogin()">Back to Login</span></p>
+  </div>
+
   <script>
-    // Toggle the Sidebar
-    function toggleSidebar() {
-      const sideNav = document.querySelector('.side-nav');
-      sideNav.classList.toggle('open');
+    let loggedIn = false;
+
+    // Simulate the login and user data
+    const users = [
+      { username: 'user1', password: 'password123' }
+    ];
+
+    function showLogin() {
+      document.getElementById('authPage').style.display = 'block';
+      document.getElementById('registerPage').style.display = 'none';
+      document.getElementById('forgotPasswordPage').style.display = 'none';
     }
 
-    // Search Functionality
-    function searchVideos() {
-      const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-      const videos = document.querySelectorAll('.video-thumbnail');
-      
-      videos.forEach(video => {
-        const title = video.getAttribute('data-title').toLowerCase();
-        if (title.includes(searchQuery)) {
-          video.style.display = 'block'; // Show if it matches
-        } else {
-          video.style.display = 'none'; // Hide if it doesn't match
-        }
-      });
+    function showRegister() {
+      document.getElementById('authPage').style.display = 'none';
+      document.getElementById('registerPage').style.display = 'block';
+      document.getElementById('forgotPasswordPage').style.display = 'none';
     }
 
-    // Mock Navigation Functions
-    function goToHome() {
-      alert("Going to Home...");
+    function showForgotPassword() {
+      document.getElementById('authPage').style.display = 'none';
+      document.getElementById('registerPage').style.display = 'none';
+      document.getElementById('forgotPasswordPage').style.display = 'block';
     }
 
-    function goToTrending() {
-      alert("Going to Trending...");
-    }
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
 
-    function goToSubscriptions() {
-      alert("Going to Subscriptions...");
-    }
-
-    function goToUpload() {
-      alert("Going to Upload...");
-    }
-
-    function goToLibrary() {
-      alert("Going to Library...");
-    }
-
-    function goToHistory() {
-      alert("Going to History...");
-    }
-
-    // Mock login (simple demo, replace with real authentication)
-    function loginUser(username, password) {
-      if (username === "admin" && password === "password123") {
-        alert("Login successful!");
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("username", username);
+      const user = users.find(u => u.username === username && u.password === password);
+      if (user) {
+        loggedIn = true;
+        document.getElementById('authPage').style.display = 'none';
+        document.getElementById('radioPlayer').style.display = 'block';
+        document.getElementById('profileContainer').style.display = 'flex';
+        document.getElementById('usernameDisplay').textContent = `Welcome, ${username}!`;
       } else {
-        alert("Invalid credentials!");
+        alert('Invalid login');
       }
     }
 
-    // Redirect to personal channel
-    function goToChannel() {
-      if (localStorage.getItem("loggedIn") === "true") {
-        alert("Redirecting to your personal channel!");
+    function register() {
+      const username = document.getElementById('newUsername').value;
+      const password = document.getElementById('newPassword').value;
+
+      if (username && password) {
+        users.push({ username, password });
+        alert('Account created successfully! Please log in.');
+        showLogin();
       } else {
-        alert("Please log in first.");
+        alert('Please fill in all fields');
       }
+    }
+
+    function forgotPassword() {
+      const email = document.getElementById('forgotEmail').value;
+      if (email) {
+        alert('Password reset link sent!');
+        showLogin();
+      } else {
+        alert('Please enter your email');
+      }
+    }
+
+    function goToProfile() {
+      alert('Navigating to profile...');
     }
   </script>
 </body>
