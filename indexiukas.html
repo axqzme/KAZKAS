@@ -4,260 +4,234 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agurkas TV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    /* Global Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      background-color: #121212;
+      font-family: 'Roboto', sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      overflow-x: hidden;
+      transition: all 0.3s ease;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: #141414;
       color: white;
-    }
-
-    h1, h2 {
-      text-align: center;
-      color: #ff6a00;
-      font-size: 3em;
-    }
-
-    a {
-      color: #ccc;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    a:hover {
-      color: #fff;
-    }
-
-    /* Login Page */
-    .login-container {
+      padding: 15px 20px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
-      background-color: #121212;
-      animation: fadeIn 2s ease-in-out;
+      position: fixed;
+      width: 100%;
+      z-index: 100;
+      top: 0;
     }
 
-    .login-box {
+    header .logo {
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    header .logo:hover {
+      color: #ffcc00;
+    }
+
+    header .search-bar input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      transition: width 0.3s ease;
+    }
+
+    header .search-bar input:focus {
+      width: 400px;
+      outline: none;
+      border-color: #ffcc00;
+    }
+
+    /* Side Navigation Styles */
+    .side-nav {
+      position: fixed;
+      top: 80px;
+      left: 0;
       background-color: #333;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
-      width: 350px;
-      animation: slideUp 1s ease-in-out;
+      width: 200px;
+      height: 100vh;
+      padding-top: 20px;
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(-220px);
     }
 
-    .login-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #ff6a00;
+    .side-nav.open {
+      transform: translateX(0);
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #444;
-      background-color: #222;
+    .side-nav ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .side-nav ul li {
+      padding: 20px;
       color: #fff;
-      border-radius: 5px;
-      font-size: 1em;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: #ff6a00;
-      border: none;
-      color: #fff;
-      font-size: 1.2em;
-      border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    button:hover {
-      background-color: #ff4500;
+    .side-nav ul li:hover {
+      background-color: #444;
     }
 
-    .links {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 10px;
-      font-size: 0.9em;
-    }
-
-    .links a {
-      color: #aaa;
-    }
-
-    /* Main Page */
-    .navbar {
-      background-color: #222;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-    }
-
-    .user-profile img {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    .user-profile p {
-      font-size: 1.2em;
-    }
-
-    .content {
-      margin: 20px;
-    }
-
-    .videos {
+    /* Main Content (Video Thumbnails Grid) */
+    .video-thumbnails {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 20px;
+      padding: 100px 20px 20px 220px; /* Padding for side nav */
     }
 
-    .video-item {
-      background-color: #333;
-      padding: 10px;
+    .video-thumbnail {
+      position: relative;
+      overflow: hidden;
       border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease-in-out;
     }
 
-    video {
+    .video-thumbnail:hover {
+      transform: scale(1.05);
+    }
+
+    .video-thumbnail img {
       width: 100%;
-      border-radius: 8px;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
     }
 
-    .video-item p {
-      margin-top: 10px;
+    .video-thumbnail .info {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 5px;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #141414;
+      color: white;
+      padding: 20px;
       text-align: center;
-      font-size: 1.1em;
-      color: #ff6a00;
+      margin-top: 40px;
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
+    footer .social-links {
+      margin-top: 15px;
     }
 
-    @keyframes slideUp {
-      0% {
-        transform: translateY(30px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
+    footer .social-links a {
+      color: white;
+      margin: 0 10px;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    footer .social-links a:hover {
+      color: #ffcc00;
     }
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
-      .login-box {
-        width: 90%;
+      .video-thumbnails {
+        grid-template-columns: repeat(2, 1fr);
+        padding-left: 20px;
       }
 
-      .navbar {
-        flex-direction: column;
-        text-align: center;
+      header .search-bar input {
+        width: 200px;
+      }
+
+      .side-nav {
+        width: 250px;
+      }
+
+      .side-nav.open {
+        transform: translateX(0);
       }
     }
   </style>
 </head>
 <body>
-
-<!-- Login Page -->
-<div id="loginPage" class="login-container">
-  <div class="login-box">
-    <h2>Agurkas TV</h2>
-    <form id="loginForm">
-      <input type="text" id="username" placeholder="Username" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-    <div class="links">
-      <a href="#" id="forgotPassword">Forgot Password?</a> | 
-      <a href="#" id="createAccount">Create Account</a>
+  <!-- Header -->
+  <header>
+    <div class="logo">Agurkas TV</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search videos...">
     </div>
-  </div>
-</div>
+  </header>
 
-<!-- Main Content Page -->
-<div id="mainPage" class="content" style="display:none;">
-  <div class="navbar">
-    <h1>Agurkas TV</h1>
-    <div class="user-profile">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/45/TikTok_logo_2023.png" alt="User Profile">
-      <p>Username</p>
-    </div>
+  <!-- Side Navigation -->
+  <div class="side-nav">
+    <ul>
+      <li>Home</li>
+      <li>Trending</li>
+      <li>Subscriptions</li>
+      <li>Library</li>
+      <li>History</li>
+    </ul>
   </div>
 
-  <h2>Cool Videos & Posts</h2>
-  <div class="videos">
-    <div class="video-item">
-      <video src="sample-video.mp4" controls></video>
-      <p>Video Title</p>
+  <!-- Video Thumbnails -->
+  <div class="video-thumbnails">
+    <div class="video-thumbnail">
+      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
+      <div class="info">Video Title 1</div>
     </div>
-    <div class="video-item">
-      <video src="sample-video2.mp4" controls></video>
-      <p>Another Video Title</p>
+    <div class="video-thumbnail">
+      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
+      <div class="info">Video Title 2</div>
     </div>
-    <!-- Add more videos as you like -->
+    <div class="video-thumbnail">
+      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
+      <div class="info">Video Title 3</div>
+    </div>
+    <div class="video-thumbnail">
+      <img src="https://via.placeholder.com/320x180" alt="Video Thumbnail">
+      <div class="info">Video Title 4</div>
+    </div>
   </div>
-</div>
 
-<script>
-  // Handling login functionality
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Agurkas TV</p>
+    <div class="social-links">
+      <a href="#" target="_blank">Facebook</a>
+      <a href="#" target="_blank">Twitter</a>
+      <a href="#" target="_blank">Instagram</a>
+    </div>
+  </footer>
 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    if (username && password) {
-      // In real use, you'd validate these credentials with a backend.
-      alert('Login Successful! Welcome to Agurkas TV!');
-      
-      // Hide the login page and show the main page
-      document.getElementById('loginPage').style.display = 'none';
-      document.getElementById('mainPage').style.display = 'block';
-    } else {
-      alert('Please enter both username and password!');
-    }
-  });
-
-  // Handling links for forgot password and account creation
-  document.getElementById('forgotPassword').addEventListener('click', function() {
-    alert('Redirecting to forgot password page...');
-    // You would redirect or open a modal here
-  });
-
-  document.getElementById('createAccount').addEventListener('click', function() {
-    alert('Redirecting to create an account page...');
-    // You would redirect or open a modal here
-  });
-</script>
-
+  <script>
+    // Toggle side navigation
+    document.querySelector('.logo').addEventListener('click', function() {
+      document.querySelector('.side-nav').classList.toggle('open');
+    });
+  </script>
 </body>
 </html>
